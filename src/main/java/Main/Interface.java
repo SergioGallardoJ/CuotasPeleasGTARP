@@ -73,6 +73,7 @@ public class Interface {
 	int sumaApostadoresLuchador2 = 0;
 	Color rojoClaro = new Color(241, 148, 138);
 	Color verdeClaro = new Color(130, 224, 170);
+	private JTextField txt_totalApostado;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -121,7 +122,7 @@ public class Interface {
 		txtArea_Ganadores.setWrapStyleWord(true);
 		txtArea_Ganadores.setLineWrap(true);
 		txtArea_Ganadores.setEditable(false);
-		txtArea_Ganadores.setFont(new Font("Bookman Old Style", Font.BOLD, 13));
+		txtArea_Ganadores.setFont(new Font("Bookman Old Style", Font.BOLD, 12));
 		txtArea_Ganadores.setBounds(25, 64, 396, 230);
 		Jpanel_Premios.add(txtArea_Ganadores);
 		
@@ -192,7 +193,7 @@ public class Interface {
 		JTextArea txtArea_Perdedores = new JTextArea();
 		txtArea_Perdedores.setWrapStyleWord(true);
 		txtArea_Perdedores.setLineWrap(true);
-		txtArea_Perdedores.setFont(new Font("Bookman Old Style", Font.BOLD, 13));
+		txtArea_Perdedores.setFont(new Font("Bookman Old Style", Font.BOLD, 12));
 		txtArea_Perdedores.setEditable(false);
 		txtArea_Perdedores.setBounds(439, 63, 376, 230);
 		Jpanel_Premios.add(txtArea_Perdedores);
@@ -329,14 +330,10 @@ public class Interface {
 		frmApuestasGtarp.getContentPane().add(rb_peleador2);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Apuestas ($):");
+		lblNewLabel_2_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2_2.setBounds(33, 93, 124, 50);
+		lblNewLabel_2_2.setBounds(33, 67, 200, 44);
 		frmApuestasGtarp.getContentPane().add(lblNewLabel_2_2);
-		
-		JLabel lblNewLabel_2_2_1 = new JLabel("Apuestas ($):");
-		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2_2_1.setBounds(582, 93, 124, 50);
-		frmApuestasGtarp.getContentPane().add(lblNewLabel_2_2_1);
 		
 		txt_ApuestaTotal2 = new JTextField();
 		txt_ApuestaTotal2.setText("0");
@@ -344,7 +341,7 @@ public class Interface {
 		txt_ApuestaTotal2.setFont(new Font("Tahoma", Font.BOLD, 17));
 		txt_ApuestaTotal2.setEditable(false);
 		txt_ApuestaTotal2.setColumns(10);
-		txt_ApuestaTotal2.setBounds(704, 100, 86, 33);
+		txt_ApuestaTotal2.setBounds(573, 112, 200, 33);
 		frmApuestasGtarp.getContentPane().add(txt_ApuestaTotal2);
 		
 		txt_ApuestaTotal1 = new JTextField();
@@ -353,12 +350,12 @@ public class Interface {
 		txt_ApuestaTotal1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		txt_ApuestaTotal1.setEditable(false);
 		txt_ApuestaTotal1.setColumns(10);
-		txt_ApuestaTotal1.setBounds(146, 101, 86, 33);
+		txt_ApuestaTotal1.setBounds(33, 110, 200, 33);
 		frmApuestasGtarp.getContentPane().add(txt_ApuestaTotal1);
 		
-		JLabel lblNewLabel_4 = new JLabel("<- (Dinero total apostado a cada luchador, menos el 10%) ->");
+		JLabel lblNewLabel_4 = new JLabel("<- (Total por Peleador apostado Menos el 10%) ->");
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setBounds(235, 95, 337, 50);
+		lblNewLabel_4.setBounds(243, 72, 320, 33);
 		frmApuestasGtarp.getContentPane().add(lblNewLabel_4);
 		
 		JLabel lbl_NombrePeleador1 = new JLabel("");
@@ -461,6 +458,22 @@ public class Interface {
 		txt_Napuestas2.setColumns(10);
 		txt_Napuestas2.setBounds(455, 249, 55, 27);
 		frmApuestasGtarp.getContentPane().add(txt_Napuestas2);
+		
+		JLabel lblNewLabel_2_2_1 = new JLabel("Apuestas ($):");
+		lblNewLabel_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2_2_1.setBounds(573, 67, 200, 44);
+		frmApuestasGtarp.getContentPane().add(lblNewLabel_2_2_1);
+		
+		txt_totalApostado = new JTextField();
+		txt_totalApostado.setText("0");
+		txt_totalApostado.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_totalApostado.setFont(new Font("Tahoma", Font.BOLD, 17));
+		txt_totalApostado.setEditable(false);
+		txt_totalApostado.setVisible(false);
+		txt_totalApostado.setColumns(10);
+		txt_totalApostado.setBounds(257, 110, 284, 33);
+		frmApuestasGtarp.getContentPane().add(txt_totalApostado);
 		
 		
 		
@@ -617,15 +630,13 @@ public class Interface {
 					
 					txt_dineroGenerado10.setText(df.format(suma10Porciento));
 					dineroTotal += premioIndividual;
-					StringBuilder mensaje = new StringBuilder();
-					mensaje.append("Nombre: ").append(apuesta[0]).append(": ").append("Apostado($): ").append(dineroApostado).append(" Recibe($): ").append(df.format(premioIndividual)).append("\n");
-					
+					String mensaje = apuesta[0]+":  Apostado($): "+df.format(dineroApostado)+" Recibe($): "+df.format(premioIndividual)+"\n";
 					
 					if (premioIndividual > 0.0) {
-						txtArea_Ganadores.setText(mensaje.toString());
+						txtArea_Ganadores.setText(txtArea_Ganadores.getText().concat(mensaje));
 					
 					}else if(premioIndividual == 0.0){
-						txtArea_Perdedores.setText(mensaje.toString());
+						txtArea_Perdedores.setText(txtArea_Perdedores.getText().concat(mensaje));
 						
 					}else {
 						System.err.println(mensaje.toString()+"No ha sido añadido.");
@@ -657,6 +668,9 @@ public class Interface {
 					sumaGananciaNegocio += (dineroLuchador2-dineroLuchador1);
 				} 
 				txt_dineroGanadoApuestasCasa.setText(df.format(sumaGananciaNegocio));
+				double sumaTotal = dineroLuchador1 + dineroLuchador2; 
+				txt_totalApostado.setText("Dinero Total: "+String.valueOf(sumaTotal));
+				txt_totalApostado.setVisible(true);
 			}
 		});
 		
@@ -708,6 +722,7 @@ public class Interface {
 				txt_peleador1.setForeground(txt_ApuestaTotal1.getForeground());
 				txt_peleador2.setForeground(txt_ApuestaTotal1.getForeground());
 				
+				txt_totalApostado.setVisible(false);
 				
 			}
 		});
